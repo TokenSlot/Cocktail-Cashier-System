@@ -190,25 +190,25 @@ main() {
 	vTequillaPrice.push_back(144.47);
 	vTequillaPrice.push_back(143.69);
 	
-	vector<string> vMix;
-	vMix.push_back("Egg");
-	vMix.push_back("Beef Broth");
-	vMix.push_back("Hot Sauce");
-	vMix.push_back("Beer");
-	vMix.push_back("Maggi Sauce");
-	vMix.push_back("Moonshine");
-	vMix.push_back("Orange Juice");
-	vMix.push_back("Limes");
-	vMix.push_back("Squid Ink");
-	vMix.push_back("Brandy");
-	vMix.push_back("Avocado");
-	vMix.push_back("Matcha Powder");
-	vMix.push_back("Lemon");
-	vMix.push_back("Coffee");
-	vMix.push_back("Apple cider");
-	vMix.push_back("Pineapple juice");
-	vMix.push_back("Iced tea");
-	vMix.push_back("Watermelon");
+//	vector<string> vMix;
+//	vMix.push_back("Egg");
+//	vMix.push_back("Beef Broth");
+//	vMix.push_back("Hot Sauce");
+//	vMix.push_back("Beer");
+//	vMix.push_back("Maggi Sauce");
+//	vMix.push_back("Moonshine");
+//	vMix.push_back("Orange Juice");
+//	vMix.push_back("Limes");
+//	vMix.push_back("Squid Ink");
+//	vMix.push_back("Brandy");
+//	vMix.push_back("Avocado");
+//	vMix.push_back("Matcha Powder");
+//	vMix.push_back("Lemon");
+//	vMix.push_back("Coffee");
+//	vMix.push_back("Apple cider");
+//	vMix.push_back("Pineapple juice");
+//	vMix.push_back("Iced tea");
+//	vMix.push_back("Watermelon");
 	
 
 	int input = 3, index, choose;
@@ -222,14 +222,15 @@ main() {
 			cout<<"----- Welcome to the Space Bar -----"<<endl;
 			cout<<endl;
 			cout<<"Choose the main ingredient"<<endl;
+			cout<<"[0] Exit"<<endl;
 			cout<<"[1] Gin"<<endl;
 			cout<<"[2] Whiskey"<<endl;
 			cout<<"[3] Vodka"<<endl;
 			cout<<"[4] Rum"<<endl;
 			cout<<"[5] Tequilla"<<endl;
-			cout<<"[6] Mix your own"<<endl<<endl;
-			if (input < 1 || input> 6) {
-				cout<<"Enter 1 to 6 only"<<endl;
+			//cout<<"[6] Mix your own"<<endl<<endl; Not yet done!
+			if (input < 1 || input> 5) {
+				cout<<"Enter 1 to 5 only"<<endl;
 			}
 			cout<<"Input: ";
 			cin>>input;
@@ -247,7 +248,8 @@ main() {
 				for (index = 0; index < vGin.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vGin[index]<<endl;
 				}
-				cout<<"Enter the letter of your choice: ";
+				cout<<endl<<"[0] Back"<<endl<<endl;
+				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
 				vChoice.push_back(vGin[choose-1]);
 				vPrice.push_back(vGinPrice[choose-1]);
@@ -255,7 +257,8 @@ main() {
 				for (index = 0; index < vWhiskey.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vWhiskey[index]<<endl;
 				}
-				cout<<"Enter the letter of your choice: ";
+				cout<<endl<<"[0] Back"<<endl<<endl;
+				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
 				vChoice.push_back(vWhiskey[choose-1]);
 				vPrice.push_back(vWhiskeyPrice[choose-1]);
@@ -263,7 +266,8 @@ main() {
 				for (index = 0; index < vVodka.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vVodka[index]<<endl;
 				}
-				cout<<"Enter the letter of your choice: ";
+				cout<<endl<<"[0] Back"<<endl<<endl;
+				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
 				vChoice.push_back(vVodka[choose-1]);
 				vPrice.push_back(vVodkaPrice[choose-1]);
@@ -271,7 +275,8 @@ main() {
 				for (index = 0; index < vRum.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vRum[index]<<endl;
 				}
-				cout<<"Enter the letter of your choice: ";
+				cout<<endl<<"[0] Back"<<endl<<endl;
+				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
 				vChoice.push_back(vRum[choose-1]);
 				vPrice.push_back(vRumPrice[choose-1]);
@@ -279,12 +284,17 @@ main() {
 				for (index = 0; index < vTequilla.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vTequilla[index]<<endl;
 				}
-				cout<<"Enter the letter of your choice: ";
+				cout<<endl<<"[0] Back"<<endl<<endl;
+				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
 				vChoice.push_back(vTequilla[choose-1]);
 				vPrice.push_back(vTequillaPrice[choose-1]);
 			}
-		} while(input < 1 || input > 6);
+			
+			if (choose == 0) {
+				input = 6;
+			}
+		} while(input < 1 || input > 5);
 		
 		cout<<"Buy another? (Y/N) ";
 		cin>>another;
@@ -295,14 +305,20 @@ main() {
 	
 	payment = total + 1;
 	srand(time(0));
+	
 	//Payment
 	do {
-		myRand = randNum(1,3);
+		myRand = randNum(1,7);
 		if (payment < total) {
 			switch (myRand) {
-				case 1: cout<<"Not Enough Gold!"<<endl; break;
+				case 1: cout<<"More pa bes, more pa!"<<endl; break;
 				case 2: cout<<"Kulang!"<<endl; break;
 				case 3: cout<<"Woy! Lasing ka na! Kulang bayad mo!"<<endl; break;
+				case 4: cout<<"Kulang to!"<<endl; break;
+				case 5: cout<<"Insufficient balance."<<endl; break;
+				case 6: cout<<"ISA PA SIGE! MAKULET KA AH!"<<endl; break;
+				case 7: cout<<"hmmmmmmm..."<<endl; break;
+				
 			}
 			
 		}
@@ -313,11 +329,12 @@ main() {
 	} while(payment < total);
 	
 	//Receipt
-	cout<<"----- Receipt ------"<<endl<<endl;
+	cout<<"----------------------Receipt----------------------"<<endl<<endl;
 	cout<<"PPF EVIL, INC."<<endl;
 	cout<<"Space Bar"<<endl;
 	cout<<"Tri-state Area"<<endl<<endl;
 	cout<<"Trans Date: "<<dt<<endl<<endl;
+	
 	//Display Payment
 	strPay = "P" + tostr(payment);
 	payLen = strPay.length();
@@ -340,6 +357,7 @@ main() {
 	}
 	
 	cout<<endl;
+	
 	//Display Total
 	for(i = 1; i <= 50; i++) {
 			cout<<"-";
