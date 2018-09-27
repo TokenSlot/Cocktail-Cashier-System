@@ -229,13 +229,14 @@ main() {
 			cout<<"[4] Rum"<<endl;
 			cout<<"[5] Tequilla"<<endl;
 			//cout<<"[6] Mix your own"<<endl<<endl; Not yet done!
-			if (input < 1 || input> 5) {
-				cout<<"Enter 1 to 5 only"<<endl;
+			if (input < 0 || input> 5) {
+				cout<<"Enter 0 to 5 only"<<endl;
 			}
 			cout<<"Input: ";
 			cin>>input;
 			
 			switch(input) {
+				case 0: cout<<endl<<"--Transaction Cancelled--"; exit(0); break;
 				case 1: main = "Gin"; break;
 				case 2: main = "Whiskey"; break;
 				case 3: main = "Vodka"; break;
@@ -244,63 +245,77 @@ main() {
 			}
 			system("cls");
 			
+			cout<<"[0] Back"<<endl;
 			if (main == "Gin") {
 				for (index = 0; index < vGin.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vGin[index]<<endl;
 				}
-				cout<<endl<<"[0] Back"<<endl<<endl;
 				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
-				vChoice.push_back(vGin[choose-1]);
-				vPrice.push_back(vGinPrice[choose-1]);
+				if (choose != 0) {
+					vChoice.push_back(vGin[choose-1]);
+					vPrice.push_back(vGinPrice[choose-1]);
+				}
 			} else if (main == "Whiskey") {
 				for (index = 0; index < vWhiskey.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vWhiskey[index]<<endl;
 				}
-				cout<<endl<<"[0] Back"<<endl<<endl;
 				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
-				vChoice.push_back(vWhiskey[choose-1]);
-				vPrice.push_back(vWhiskeyPrice[choose-1]);
+				if (choose != 0) {
+					vChoice.push_back(vWhiskey[choose-1]);
+					vPrice.push_back(vWhiskeyPrice[choose-1]);
+				}
 			} else if (main == "Vodka") {
 				for (index = 0; index < vVodka.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vVodka[index]<<endl;
 				}
-				cout<<endl<<"[0] Back"<<endl<<endl;
 				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
-				vChoice.push_back(vVodka[choose-1]);
-				vPrice.push_back(vVodkaPrice[choose-1]);
+				if (choose != 0) {
+					vChoice.push_back(vVodka[choose-1]);
+					vPrice.push_back(vVodkaPrice[choose-1]);
+				}
 			} else if (main == "Rum") {
 				for (index = 0; index < vRum.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vRum[index]<<endl;
 				}
-				cout<<endl<<"[0] Back"<<endl<<endl;
 				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
-				vChoice.push_back(vRum[choose-1]);
-				vPrice.push_back(vRumPrice[choose-1]);
+				if (choose != 0) {
+					vChoice.push_back(vRum[choose-1]);
+					vPrice.push_back(vRumPrice[choose-1]);
+				}
 			} else if (main == "Tequilla") {
 				for (index = 0; index < vTequilla.size(); index++) {
 					cout<<"["<<index+1<<"] "<<vTequilla[index]<<endl;
 				}
-				cout<<endl<<"[0] Back"<<endl<<endl;
 				cout<<"Enter the Number of your choice: ";
 				cin>>choose;
-				vChoice.push_back(vTequilla[choose-1]);
-				vPrice.push_back(vTequillaPrice[choose-1]);
+				if (choose != 0) {
+					vChoice.push_back(vTequilla[choose-1]);
+					vPrice.push_back(vTequillaPrice[choose-1]);
+				}
 			}
-			
-			if (choose == 0) {
-				input = 6;
-			}
-		} while(input < 1 || input > 5);
+			system("cls");
+		} while(input < 1 || input > 5 || choose == 0);
 		
-		cout<<"Buy another? (Y/N) ";
+		cout<<"[Y] Buy Another"<<endl;
+		cout<<"[N] Check Out"<<endl;
+		cout<<"[C] Cancel"<<endl; 
+		cout<<endl<<"Press other keys to go back."<<endl;
+		cout<<"Input: ";
 		cin>>another;
 		upper = toupper(another);
+		if (upper == 'Y' || upper == 'N') {
+			total += vPrice.back();
+		} else if (upper == 'C') {
+			cout<<endl<<"--Transaction Cancelled--"; 
+			exit(0);
+		} else {
+			upper = 'Y';
+		}
 		system("cls");
-		total += vPrice.back();
 	} while(upper == 'Y');
 	
 	payment = total + 1;
@@ -330,7 +345,7 @@ main() {
 	
 	//Receipt
 	cout<<"----------------------Receipt----------------------"<<endl<<endl;
-	cout<<"PPF EVIL, INC."<<endl;
+	cout<<"PPF'S EVIL, INC."<<endl;
 	cout<<"Space Bar"<<endl;
 	cout<<"Tri-state Area"<<endl<<endl;
 	cout<<"Trans Date: "<<dt<<endl<<endl;
