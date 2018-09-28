@@ -338,6 +338,7 @@ main() {
 				case 5: cout<<"Insufficient balance."<<endl; break;
 				case 6: cout<<"ISA PA SIGE! MAKULET KA AH!"<<endl; break;
 				case 7: cout<<"hmmmmmmm..."<<endl; break;
+				case 8: cout<<"testing"<<endl; break;
 				
 			}
 			
