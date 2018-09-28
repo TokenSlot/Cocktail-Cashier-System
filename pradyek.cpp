@@ -328,18 +328,13 @@ main() {
 	
 	//Payment
 	do {
-		myRand = randNum(1,7);
+		myRand = randNum(1,4);
 		if (payment < total) {
 			switch (myRand) {
-				case 1: cout<<"More pa bes, more pa!"<<endl; break;
-				case 2: cout<<"Kulang!"<<endl; break;
-				case 3: cout<<"Woy! Lasing ka na! Kulang bayad mo!"<<endl; break;
-				case 4: cout<<"Kulang to!"<<endl; break;
-				case 5: cout<<"Insufficient balance."<<endl; break;
-				case 6: cout<<"ISA PA SIGE! MAKULET KA AH!"<<endl; break;
-				case 7: cout<<"hmmmmmmm..."<<endl; break;
-				case 8: cout<<"testing"<<endl; break;
-				
+				case 1: cout<<"Add more"<<endl; break;
+				case 2: cout<<"Insufficient balance."<<endl; break;
+				case 3: cout<<"Not enough cash"<<endl; break;
+				case 4: cout<<"You don't have enough money"<<endl; break;
 			}
 			
 		}
