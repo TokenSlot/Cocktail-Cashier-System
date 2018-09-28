@@ -8,12 +8,16 @@
 
 using namespace std;
 
-
 //Receipt Responsive Dashes
 void dasher(string str, float price);
 
+//Menu Responsive Dots
+void dotter(string str, float price);
+
+//Returns Choose (x) and Displays List of chosen main ingredient
 int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice);
 
+//Input Choose (for getlist function)
 int getChoose(int &choose);
 
 //Converts numerical value into string
@@ -221,10 +225,10 @@ main() {
 	
 
 	int input = 3, index, choose;
-	int priceLen, itemLen, totalLen, payLen, changeLen, dashMax = 50, dashCount, i, myRand;
+	int i, myRand;
 	float price, total = 0, payment, change;
 	char another, upper = 'Y';
-	string main, strPrice, strTotal, strPay, strChange;
+	string main;
 	
 	do {
 		do {
@@ -297,18 +301,13 @@ main() {
 	
 	//Payment
 	do {
-		myRand = randNum(1,7);
+		myRand = randNum(1,4);
 		if (payment < total) {
 			switch (myRand) {
-				case 1: cout<<"More pa bes, more pa!"<<endl; break;
-				case 2: cout<<"Kulang!"<<endl; break;
-				case 3: cout<<"Woy! Lasing ka na! Kulang bayad mo!"<<endl; break;
-				case 4: cout<<"Kulang to!"<<endl; break;
-				case 5: cout<<"Insufficient balance."<<endl; break;
-				case 6: cout<<"ISA PA SIGE! MAKULET KA AH!"<<endl; break;
-				case 7: cout<<"hmmmmmmm..."<<endl; break;
-				case 8: cout<<"testing"<<endl; break;
-				
+				case 1: cout<<"Add more"<<endl; break;
+				case 2: cout<<"Insufficient balance."<<endl; break;
+				case 3: cout<<"Not enough cash"<<endl; break;
+				case 4: cout<<"You don't have enough money"<<endl; break;
 			}
 			
 		}
@@ -362,11 +361,28 @@ void dasher(string str, float price) {
 	cout<<strPrice<<endl;
 }
 
+//Menu Responsive Dots
+void dotter(string str, float price) {
+	string strPrice;
+	int i, dashCount, dashMax = 35, len;
+	strPrice = "P" + tostr(price);
+	len = strPrice.length();
+	cout<<str;
+	dashCount = dashMax - (str.length() + len);
+	for (i =1; i <= dashCount; i++) {
+		cout<<".";
+	}
+	cout<<strPrice<<endl;
+}
+
+//Returns Choose (x) and Displays List of chosen main ingredient
 int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice){
 	int index, x;
 	for (index = 0; index < itemList.size(); index++) {
-		cout<<"["<<index+1<<"] "<<itemList[index]<<endl;
+		cout<<"["<<index+1<<"] ";
+		dotter(itemList[index], itemPrice[index]);
 	}
+	cout<<endl;
 	cout<<"Enter the Number of your choice: ";
 	x = getChoose(choose);
 	if (x != 0) {
@@ -376,6 +392,7 @@ int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vect
 	return x;
 }
 
+//Input Choose (for getlist function)
 int getChoose(int &choose){
 	cin >> choose;
 	return choose;
