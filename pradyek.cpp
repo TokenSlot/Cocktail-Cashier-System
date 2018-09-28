@@ -5,6 +5,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <sstream>
+#include <limits>
 
 using namespace std;
 
@@ -395,5 +396,11 @@ int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vect
 //Input Choose (for getlist function)
 int getChoose(int &choose){
 	cin >> choose;
-	return choose;
+	if (cin.fail()) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		return 0;
+	} else {
+		return choose;
+	}
 }
