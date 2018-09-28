@@ -8,6 +8,10 @@
 
 using namespace std;
 
+
+//Receipt Responsive Dashes
+void dasher(string str, float price);
+
 //Converts numerical value into string
 template <typename T>string tostr(const T& t) {
 	ostringstream os;
@@ -189,6 +193,7 @@ main() {
 	vTequillaPrice.push_back(142.99);
 	vTequillaPrice.push_back(144.47);
 	vTequillaPrice.push_back(143.69);
+	vTequillaPrice.push_back(144.47);
 	
 //	vector<string> vMix;
 //	vMix.push_back("Egg");
@@ -351,53 +356,38 @@ main() {
 	cout<<"Trans Date: "<<dt<<endl<<endl;
 	
 	//Display Payment
-	strPay = "P" + tostr(payment);
-	payLen = strPay.length();
-	cout<<endl<<"Payment";
-	dashCount = dashMax - (7 + payLen);
-	for(i = 1; i <= dashCount; i++) {
-			cout<<"-";
-		}
-	cout<<strPay<<endl<<endl;
-	for (index = 0; index < vChoice.size(); index++) {
-		strPrice = "P" + tostr(vPrice[index]);
-		itemLen = vChoice[index].length();
-		priceLen = strPrice.length();
-		dashCount = dashMax - (itemLen + priceLen);
-		cout<<vChoice[index];
-		for(i = 1; i <= dashCount; i++) {
-			cout<<"-";
-		}
-		cout<<strPrice<<endl;
-	}
-	
+	dasher("Payment", payment);
 	cout<<endl;
+	
+	//Display Purchases
+	for (index = 0; index < vChoice.size(); index++) {
+		cout<<"Purchases:"<<endl;
+		dasher(vChoice[index], vPrice[index]);
+	}
 	
 	//Display Total
 	for(i = 1; i <= 50; i++) {
 			cout<<"-";
 	}
-	strTotal = "P" + tostr(total);
-	totalLen = strTotal.length();
-	cout<<endl<<"Total";
-	dashCount = dashMax - (5 + totalLen);
-	for(i = 1; i <= dashCount; i++) {
-			cout<<"-";
-		}
-	cout<<strTotal<<endl;
+	cout<<endl;
+	dasher("Total",total);
 	
 	//Display Change
 	change = payment - total;
-	strChange = "P" + tostr(change);
-	changeLen = strChange.length();
-	cout<<"Change";
-	dashCount = dashMax - (6 + changeLen);
-	for(i = 1; i <= dashCount; i++) {
-			cout<<"-";
-		}
-	cout<<strChange<<endl;
-	
-	
+	dasher("Change", change);
 	cout<<endl<<"Thank you for purchasing. Enjoy!"<<endl;
-	
+}
+
+//Receipt Responsive Dashes
+void dasher(string str, float price) {
+	string strPrice;
+	int i, dashCount, dashMax = 50, len;
+	strPrice = "P" + tostr(price);
+	len = strPrice.length();
+	cout<<str;
+	dashCount = dashMax - (str.length() + len);
+	for (i =1; i <= dashCount; i++) {
+		cout<<"-";
+	}
+	cout<<strPrice<<endl;
 }
