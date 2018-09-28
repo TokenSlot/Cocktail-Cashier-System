@@ -12,6 +12,10 @@ using namespace std;
 //Receipt Responsive Dashes
 void dasher(string str, float price);
 
+int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice);
+
+int getChoose(int &choose);
+
 //Converts numerical value into string
 template <typename T>string tostr(const T& t) {
 	ostringstream os;
@@ -252,58 +256,23 @@ main() {
 			
 			cout<<"[0] Back"<<endl;
 			if (main == "Gin") {
-				for (index = 0; index < vGin.size(); index++) {
-					cout<<"["<<index+1<<"] "<<vGin[index]<<endl;
-				}
-				cout<<"Enter the Number of your choice: ";
-				cin>>choose;
-				if (choose != 0) {
-					vChoice.push_back(vGin[choose-1]);
-					vPrice.push_back(vGinPrice[choose-1]);
-				}
+
+				choose = getList(choose,vGin,vGinPrice,vChoice, vPrice);
 			} else if (main == "Whiskey") {
-				for (index = 0; index < vWhiskey.size(); index++) {
-					cout<<"["<<index+1<<"] "<<vWhiskey[index]<<endl;
-				}
-				cout<<"Enter the Number of your choice: ";
-				cin>>choose;
-				if (choose != 0) {
-					vChoice.push_back(vWhiskey[choose-1]);
-					vPrice.push_back(vWhiskeyPrice[choose-1]);
-				}
+
+				choose = getList(choose,vWhiskey,vWhiskeyPrice,vChoice, vPrice);
 			} else if (main == "Vodka") {
-				for (index = 0; index < vVodka.size(); index++) {
-					cout<<"["<<index+1<<"] "<<vVodka[index]<<endl;
-				}
-				cout<<"Enter the Number of your choice: ";
-				cin>>choose;
-				if (choose != 0) {
-					vChoice.push_back(vVodka[choose-1]);
-					vPrice.push_back(vVodkaPrice[choose-1]);
-				}
+
+				choose = getList(choose,vVodka,vVodkaPrice,vChoice, vPrice);
 			} else if (main == "Rum") {
-				for (index = 0; index < vRum.size(); index++) {
-					cout<<"["<<index+1<<"] "<<vRum[index]<<endl;
-				}
-				cout<<"Enter the Number of your choice: ";
-				cin>>choose;
-				if (choose != 0) {
-					vChoice.push_back(vRum[choose-1]);
-					vPrice.push_back(vRumPrice[choose-1]);
-				}
+
+				choose = getList(choose,vRum,vRumPrice,vChoice, vPrice);
 			} else if (main == "Tequilla") {
-				for (index = 0; index < vTequilla.size(); index++) {
-					cout<<"["<<index+1<<"] "<<vTequilla[index]<<endl;
-				}
-				cout<<"Enter the Number of your choice: ";
-				cin>>choose;
-				if (choose != 0) {
-					vChoice.push_back(vTequilla[choose-1]);
-					vPrice.push_back(vTequillaPrice[choose-1]);
-				}
+
+				choose = getList(choose,vTequilla,vTequillaPrice,vChoice, vPrice);
 			}
 			system("cls");
-		} while(input < 1 || input > 5 || choose == 0);
+		} while(input < 1 || input > 5 || choose== 0);
 		
 		cout<<"[Y] Buy Another"<<endl;
 		cout<<"[N] Check Out"<<endl;
@@ -328,13 +297,18 @@ main() {
 	
 	//Payment
 	do {
-		myRand = randNum(1,4);
+		myRand = randNum(1,7);
 		if (payment < total) {
 			switch (myRand) {
-				case 1: cout<<"Add more"<<endl; break;
-				case 2: cout<<"Insufficient balance."<<endl; break;
-				case 3: cout<<"Not enough cash"<<endl; break;
-				case 4: cout<<"You don't have enough money"<<endl; break;
+				case 1: cout<<"More pa bes, more pa!"<<endl; break;
+				case 2: cout<<"Kulang!"<<endl; break;
+				case 3: cout<<"Woy! Lasing ka na! Kulang bayad mo!"<<endl; break;
+				case 4: cout<<"Kulang to!"<<endl; break;
+				case 5: cout<<"Insufficient balance."<<endl; break;
+				case 6: cout<<"ISA PA SIGE! MAKULET KA AH!"<<endl; break;
+				case 7: cout<<"hmmmmmmm..."<<endl; break;
+				case 8: cout<<"testing"<<endl; break;
+				
 			}
 			
 		}
@@ -356,8 +330,8 @@ main() {
 	cout<<endl;
 	
 	//Display Purchases
+	cout<<"Purchases:"<<endl;
 	for (index = 0; index < vChoice.size(); index++) {
-		cout<<"Purchases:"<<endl;
 		dasher(vChoice[index], vPrice[index]);
 	}
 	
@@ -386,4 +360,23 @@ void dasher(string str, float price) {
 		cout<<"-";
 	}
 	cout<<strPrice<<endl;
+}
+
+int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice){
+	int index, x;
+	for (index = 0; index < itemList.size(); index++) {
+		cout<<"["<<index+1<<"] "<<itemList[index]<<endl;
+	}
+	cout<<"Enter the Number of your choice: ";
+	x = getChoose(choose);
+	if (x != 0) {
+		itemChoice.push_back(itemList[x-1]);
+		itemChoicePrice.push_back(itemPrice[x-1]);
+	}
+	return x;
+}
+
+int getChoose(int &choose){
+	cin >> choose;
+	return choose;
 }
