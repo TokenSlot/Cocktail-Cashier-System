@@ -59,19 +59,19 @@ main() {
 	
 	vector<float> vGinPrice;
 	vGinPrice.push_back(127.51);
-	vGinPrice.push_back(130.52);
-	vGinPrice.push_back(135.40);
-	vGinPrice.push_back(175.75);
-	vGinPrice.push_back(150);
-	vGinPrice.push_back(199.99);
-	vGinPrice.push_back(101.90);
-	vGinPrice.push_back(111.11);
-	vGinPrice.push_back(123.45);
-	vGinPrice.push_back(143.66);
-	vGinPrice.push_back(150.50);
-	vGinPrice.push_back(142);
-	vGinPrice.push_back(144.47);
-	vGinPrice.push_back(143.69);
+	vGinPrice.push_back(242.45);
+	vGinPrice.push_back(132.27);
+	vGinPrice.push_back(196.78);
+	vGinPrice.push_back(235.27);
+	vGinPrice.push_back(217.45);
+	vGinPrice.push_back(672.2);
+	vGinPrice.push_back(195.7);
+	vGinPrice.push_back(403.32);
+	vGinPrice.push_back(132.81);
+	vGinPrice.push_back(245.03);
+	vGinPrice.push_back(177.76);
+	vGinPrice.push_back(172.39);
+	vGinPrice.push_back(226.06);
 	
 	vector<string> vWhiskey;
 	vWhiskey.push_back("T.N.T");
