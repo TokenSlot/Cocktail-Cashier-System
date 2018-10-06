@@ -10,6 +10,7 @@
 using namespace std;
 
 //Receipt Responsive Dashes
+//test
 void dasher(string str, float price);
 
 //Menu Responsive Dots
