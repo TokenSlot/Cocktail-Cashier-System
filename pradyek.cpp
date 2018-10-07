@@ -229,7 +229,7 @@ main() {
 	vMix.push_back("Watermelon");
 	
 	vector<float> vMixPrice;
-	vMixPrice.push_back(6); //egg
+	vMixPrice.push_back(6); //Egg
 	vMixPrice.push_back(35); //Beef Broth
 	vMixPrice.push_back(25); //Hot Sauce
 	vMixPrice.push_back(50); //Beer
@@ -249,10 +249,10 @@ main() {
 	vMixPrice.push_back(30); //Watermelon
 	
 	//Variables
-	int input = 3, index, choose, remove;
+	int input = 3, index, choose, remove, limit = 0;
 	int i, myRand;
 	float price, tempTotal = 0, total = 0, payment, change;
-	char another, upper = 'Y';
+	char another, check, upper = 'Y';
 	string main;
 	
 	do {
@@ -301,7 +301,8 @@ main() {
 			system("cls");
 		} while(input < 1 || input > 6 || choose== 0);
 		
-		do {
+		do {	
+			tempTotal = 0;
 			if (!vChoice.empty()) {
 				cout<<"Current Purchases:"<<endl;
 				for (index = 0; index < vChoice.size(); index++) {
@@ -319,16 +320,27 @@ main() {
 			cout<<"Input: ";
 			cin>>another;
 			upper = toupper(another);
-			if (upper == 'Y' || upper == 'N') {
+			if (upper == 'Y') {
 				cout<<"\nAre you sure? "<<endl;
 				cout<<"[O] Yes"<<endl;
 				cout<<"[X] No"<<endl;
 				cout<<"Input: ";
 				cin>>another;
-				upper = toupper(another);
-				if (upper == 'O') {
-					total += vPrice.back();
+				check = toupper(another);
+				if (check == 'O') {
 					upper = 'Y';
+				} else {
+					upper = 'X';
+				}
+			} else if (upper == 'N') {
+				cout<<"\nAre you sure? "<<endl;
+				cout<<"[O] Yes"<<endl;
+				cout<<"[X] No"<<endl;
+				cout<<"Input: ";
+				cin>>another;
+				check = toupper(another);
+				if (check == 'X') {
+					upper = 'X';
 				}
 			} else if (upper == 'C') {
 				cout<<endl<<"--Transaction Cancelled--"; 
@@ -345,22 +357,43 @@ main() {
 						upper = toupper(another);
 						if (upper == 'O') {
 							vChoice.erase(vChoice.begin());
+							vPrice.erase(vPrice.begin());
 						}
-						upper = 'Y';
+						upper = 'X';
 					} else if (vChoice.size() > 1) {
 						remove = 1;
 						do {
+							system("cls");
+							tempTotal = 0;
 							if (remove < 0 || remove > vChoice.size()) {
-								cout<<"Enter 1 to "<<vChoice.size()<<" only"<<endl;
+								cout<<"Enter 0 to "<<vChoice.size()<<" only"<<endl;
 							}
- 							cout<<"Choose item to remove: ";
+ 							cout<<"Choose item to remove: "<<endl;
+ 							cout<<"[0] Back"<<endl;
 							for (index = 0; index < vChoice.size(); index++) {
 								removeMenu(index + 1, vChoice[index], vPrice[index]);
+								tempTotal += vPrice[index];
 							}
-							cout<<"\nTotal: "<<total;
+							cout<<"\nTotal: "<<tempTotal;
 							cout<<endl;
 							cout<<"Input: ";
 							cin>>remove;
+							if (remove != 0) {
+								cout<<endl<<"Are you sure you want to remove "<<vChoice[remove-1]<<"?"<<endl;
+								cout<<"[O] Yes"<<endl;
+								cout<<"[X] No"<<endl;
+								cout<<"Input: ";
+								cin>>another;
+								upper = toupper(another);
+								if (upper == 'O') {
+									vChoice.erase(vChoice.begin() + (remove-1));
+									vPrice.erase(vPrice.begin() + (remove-1));
+								}
+								remove = 0;
+								upper = 'O';
+							} else {
+								upper = 'X';
+							}
 						} while (remove < 0 || remove > vChoice.size());
 					} else {
 						cout<<"There are no items to remove..."<<endl;
@@ -376,8 +409,11 @@ main() {
 		} while (upper == 'X');
 	} while(upper == 'Y');
 	
-	payment = total + 1;
 	srand(time(0));
+	for (index = 0; index < vPrice.size(); index++) {
+		total += vPrice[index];
+	}
+	payment = total + 1;
 	
 	//Payment
 	do {
@@ -405,8 +441,8 @@ main() {
 	//Receipt
 	cout<<"----------------------Receipt----------------------"<<endl<<endl;
 	cout<<"PPF'S EVIL, INC."<<endl;
-	cout<<"Space Bar"<<endl;
-	cout<<"Tri-state Area"<<endl<<endl;
+	cout<<"The Space Bar"<<endl;
+	cout<<"Technological Institute of Technology QC"<<endl<<endl;
 	cout<<"Trans Date: "<<dt<<endl<<endl;
 	
 	//Display Payment

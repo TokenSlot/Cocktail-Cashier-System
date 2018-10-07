@@ -11,7 +11,8 @@ TODO:
 - [ ] Fix Prices
 - [ ] Add Mix Menu
 - [ ] Better Quantity Handling
-- [ ] Finish Remove Menu
+- [ ] Show Quantity of an item on Purchase List
+- [ ] Add an option to remove quantity in the Remove Item Menu
 
 ![cocktailImg](https://images.all-free-download.com/images/graphiclarge/cocktail_of_highdefinition_picture_five_166470.jpg)
 
