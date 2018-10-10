@@ -252,17 +252,17 @@ main() {
 	vMixPrice.push_back(30); //Watermelon
 	
 	//Declaration of Variables
-	int input = 3, index, choose, remove, removeQuantity = 1, removePrice = 0;
+	int input = 3, index, choose, remove = 1, removeQuantity = 1, removePrice = 0, temp, mixCount = 0;
 	int i, myRand;
-	float price, tempTotal = 0, total = 0, payment, change;
+	float price, tempTotal = 0, total = 0, payment, change, mixPrice = 0, mixTempPrice = 0;
 	char another, check, upper = 'Y';
-	string main;
+	string main, mixName;
 	
 	do { 
 		do {
 			cout<<"----- Welcome to the Space Bar -----"<<endl;
 			cout<<endl;
-			cout<<"Choose the main ingredient"<<endl;
+			cout<<"Choose your drink"<<endl;
 			cout<<"[0] Exit"<<endl;
 			cout<<"[1] Gin"<<endl;
 			cout<<"[2] Whiskey"<<endl;
@@ -305,10 +305,79 @@ main() {
 			} else if (main == "Tequilla") {
 				choose = getList(choose, vTequilla, vTequillaPrice, vChoice, vPrice, vMul);
 			} else if (main == "Mix") {
-				choose = getList(choose, vMix, vMixPrice, vChoice, vPrice, vMul);
+				do {
+					//RESEARCH~ RESEARCH~
+					do {
+						system("cls");
+						cout<<"--- Mix Menu ---"<<endl;
+						cout<<"[0] Back"<<endl;
+						cout<<"[1] Mix Cocktails"<<endl;
+						cout<<"[2] Mix with Custom Ingredients"<<endl;
+						if (input < 0 || input > 2) {
+								cout<<"Enter 0 to 2 only"<<endl;
+						}
+						cout<<"Input: ";
+						cin>>input;
+						if (cin.fail()) {
+							input = -1;
+						} else if (input == 0) {
+							choose = 0;
+						}
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					} while (input < 0 || input > 2);
+					
+					if (input == 1) {
+						do {
+							system("cls");
+							cout<<"Choose a Drink ("<<mixCount<<"/3)"<<endl;
+							cout<<"(You can only mix 2 to 3 Drinks)"<<endl<<endl;
+							cout<<"[0] Back"<<endl;
+							cout<<"[1] Gin"<<endl;
+							cout<<"[2] Whiskey"<<endl;
+							cout<<"[3] Vodka"<<endl;
+							cout<<"[4] Rum"<<endl;
+							cout<<"[5] Tequilla"<<endl;
+							if (input < 0 || input> 5) {
+								cout<<"Enter 0 to 5 only"<<endl;
+							}
+							cout<<"Input: ";
+							cin>>input;
+							if (cin.fail()) {
+								input = -1;
+							}
+							cin.clear();
+							cin.ignore(numeric_limits<streamsize>::max(), '\n');
+							switch(input) {
+								//FINISH HERE
+							}
+						} while (input < 1 || input > 5 || temp == 0);
+					} else if (input == 2) {
+						do {
+							system("cls");
+							cout<<"Choose the main ingredient of your own Mix"<<endl;
+							cout<<"[0] Back"<<endl;
+							cout<<"[1] Gin"<<endl;
+							cout<<"[2] Whiskey"<<endl;
+							cout<<"[3] Vodka"<<endl;
+							cout<<"[4] Rum"<<endl;
+							cout<<"[5] Tequilla"<<endl;
+							if (input < 0 || input> 5) {
+								cout<<"Enter 0 to 5 only"<<endl;
+							}
+							cout<<"Input: ";
+							cin>>input;
+							if (cin.fail()) {
+								input = -1;
+							}
+							cin.clear();
+							cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						} while (input < 1 || input > 5);	
+					}
+				} while (input < 0 || input > 5);
 			}
 			system("cls");
-		} while(input < 1 || input > 6 || choose == 0);
+		} while(input < 0 || input > 6 || choose == 0);
 		
 		do {
 			//USER CART MENU
@@ -338,7 +407,7 @@ main() {
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			upper = toupper(another);
 			if (upper == 'Y') {
-				cout<<"\nAre you sure you want to buy another? "<<endl;
+				cout<<endl<<"Are you sure you want to buy another?"<<endl;
 				cout<<"[O] Yes"<<endl;
 				cout<<"[X] No"<<endl;
 				cout<<"Input: ";
@@ -348,20 +417,30 @@ main() {
 				check = toupper(another);
 				if (check == 'O') {
 					upper = 'Y';
-				} else {
+				} else if (check == 'X') {
 					upper = 'X';
+				} else {
+					upper = 'p';
 				}
 			} else if (upper == 'N') {
-				cout<<"\nAre you sure you want to check out? "<<endl;
-				cout<<"[O] Yes"<<endl;
-				cout<<"[X] No"<<endl;
-				cout<<"Input: ";
-				cin>>another;
-				check = toupper(another);
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			
-				if (check == 'X') {
+				if (vChoice.empty() == 0) {
+					cout<<endl<<"Are you sure you want to check out?"<<endl;
+					cout<<"[O] Yes"<<endl;
+					cout<<"[X] No"<<endl;
+					cout<<"Input: ";
+					cin>>another;
+					check = toupper(another);
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					if (check == 'X') {
+						upper = 'X';
+					} else if (check != 'O' && check != 'X') {
+						upper = 'p';
+					}
+				} else {
+					cout<<"You can't check out an empty cart..."<<endl;
+					cout<<"Press any button to go back."<<endl;
+					cin.get();
 					upper = 'X';
 				}
 			} else if (upper == 'C') {
@@ -371,12 +450,11 @@ main() {
 				//REMOVE MENU
 				do {
 					system("cls");
-					if (vChoice.size() > 0) {
-						remove = 1;
+					if (vChoice.size() > 0) { //Checks if vChoice is empty
 						do {
 							system("cls");
 							tempTotal = 0;
- 							cout<<"Choose item to remove: "<<endl;
+ 							cout<<"Choose an item to remove: "<<endl;
  							cout<<"[0] Back"<<endl;
 							for (index = 0; index < vChoice.size(); index++) {
 								removeMenu(index + 1, vChoice[index], vPrice[index], vMul[index]);
@@ -396,7 +474,7 @@ main() {
 							cin.ignore(numeric_limits<streamsize>::max(), '\n');
 						} while (remove < 0 || remove > vChoice.size());
 						if (remove != 0) {
-							if (vMul[remove-1] > 1) {
+							if (vMul[remove-1] > 1) { //Removing an item with 2 or more quantity
 								do {
 									system("cls");
 									cout<<"You currently have "<<vMul[remove-1]<<" "<<vChoice[remove-1]<<endl;
@@ -413,51 +491,47 @@ main() {
 									cin.clear();
 									cin.ignore(numeric_limits<streamsize>::max(), '\n');
 								} while (removeQuantity < 0 || removeQuantity > vMul[remove-1]);
-								vMul[remove-1] -= removeQuantity;
-								if (vMul[remove-1] == 0) {
-									vChoice.erase(vChoice.begin() + (remove-1));
-									vPrice.erase(vPrice.begin() + (remove-1));
-									vMul.erase(vMul.begin() + (remove-1));
+							}
+							upper = 'O';
+							do {
+								system("cls");
+								cout<<"Are you sure you want to remove "<<vMul[remove-1]<<" "<<vChoice[remove-1]<<"?"<<endl;
+								if (vMul[remove-1] == 1) {
+									removeQuantity = 1;
 								}
-							} else {
-								remove = 0;
-								upper = 'O';
-								do {
-									cout<<endl<<"Are you sure you want to remove "<<vChoice[remove-1]<<"?"<<endl;
-									cout<<"[O] Yes"<<endl;
-									cout<<"[X] No"<<endl;
-									if (upper != 'O' || upper != 'X') {
-										cout<<"Invalid Input"<<endl;
-									}
-									cout<<"Input: ";
-									cin>>another;
-									upper = toupper(another);
-									cin.clear();
-									cin.ignore(numeric_limits<streamsize>::max(), '\n');
-								} while (upper != 'O' || upper != 'X');
-								if (upper == 'O') {
-									vChoice.erase(vChoice.begin() + (remove-1));
-									vPrice.erase(vPrice.begin() + (remove-1));
-									vMul.erase(vMul.begin() + (remove-1));
+								cout<<"[O] Yes"<<endl;
+								cout<<"[X] No"<<endl;
+								if (upper != 'O' && upper != 'X') {
+									cout<<"Invalid Input"<<endl;
+								}
+								cout<<"Input: ";
+								cin>>another;
+								upper = toupper(another);
+								cin.clear();
+								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+							} while (upper != 'O' && upper != 'X');
+							if (upper == 'O') {
+							vMul[remove-1] -= removeQuantity;
+							if (vMul[remove-1] == 0) {
+								vChoice.erase(vChoice.begin() + (remove-1));
+								vPrice.erase(vPrice.begin() + (remove-1));
+								vMul.erase(vMul.begin() + (remove-1));
 								}
 							}
 							remove = 0;
-							upper = 'O';
+							upper = 'O'; //Loop
 						} else {
-							upper = 'X';
+							upper = 'X'; //End Loop (user's choice)
 						}
 					} else {
 						cout<<"There are no items to remove..."<<endl;
-						cout<<"Press any button to continue.";
+						cout<<"Press any button to go back."<<endl;
 						cin.get();
-						upper = 'X';
+						upper = 'X'; //End Loop of Remove Menu
 					}
-				} while (upper == 'O');
+				} while (upper == 'O'); //Loop Remove Menu until user chooses to go back
 			} else {
-				/*
-				upper WILL always equal small p when user
-				inputs a char that is not in the choices
-				*/
+				//Invalid Input
 				upper = 'p';
 			}
 			system("cls");
