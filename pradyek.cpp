@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
@@ -251,7 +252,7 @@ main() {
 	vMixPrice.push_back(30); //Watermelon
 	
 	//Declaration of Variables
-	int input = 3, index, choose, remove, limit = 0;
+	int input = 3, index, choose, remove, removeQuantity = 1, removePrice = 0;
 	int i, myRand;
 	float price, tempTotal = 0, total = 0, payment, change;
 	char another, check, upper = 'Y';
@@ -274,6 +275,11 @@ main() {
 			}
 			cout<<"Input: ";
 			cin>>input;
+			if (cin.fail()) {
+				input = -1;
+			}
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			
 			switch(input) {
 				case 0: cout<<endl<<"--Transaction Cancelled--"; exit(0); break;
@@ -286,6 +292,7 @@ main() {
 			}
 			system("cls");
 			
+			cout<<"--- You picked "<<main<<" as your main Ingredient ---"<<endl<<endl;
 			cout<<"[0] Back"<<endl;
 			if (main == "Gin") {
 				choose = getList(choose, vGin, vGinPrice, vChoice, vPrice, vMul);
@@ -297,37 +304,47 @@ main() {
 				choose = getList(choose, vRum, vRumPrice, vChoice, vPrice, vMul);
 			} else if (main == "Tequilla") {
 				choose = getList(choose, vTequilla, vTequillaPrice, vChoice, vPrice, vMul);
-			} else {
+			} else if (main == "Mix") {
 				choose = getList(choose, vMix, vMixPrice, vChoice, vPrice, vMul);
 			}
 			system("cls");
-		} while(input < 1 || input > 6 || choose== 0);
+		} while(input < 1 || input > 6 || choose == 0);
 		
-		do {	
+		do {
+			//USER CART MENU
 			tempTotal = 0;
 			if (!vChoice.empty()) {
 				cout<<"Current Purchases:"<<endl;
 				for (index = 0; index < vChoice.size(); index++) {
 					dasher(vChoice[index], vPrice[index], vMul[index]);
-					tempTotal += vPrice[index];
+					tempTotal += vPrice[index]*vMul[index];
 				}
-				cout<<"\nTotal: "<<tempTotal;
+				cout<<"\nTotal: P"<<tempTotal;
 				cout<<endl<<endl;
+			} else {
+				cout<<"Cart Empty..."<<endl<<endl;
 			}
 			cout<<"[Y] Buy Another"<<endl;
 			cout<<"[N] Check Out"<<endl;
 			cout<<"[R] Remove Purchase"<<endl;
-			cout<<"[C] Cancel"<<endl; 
-			cout<<endl<<"Press other keys to go back."<<endl;
+			cout<<"[C] Cancel Transaction"<<endl; 
+			cout<<endl;
+			if (upper == 'p') {
+				cout<<"Invalid Input"<<endl;
+			}
 			cout<<"Input: ";
 			cin>>another;
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			upper = toupper(another);
 			if (upper == 'Y') {
-				cout<<"\nAre you sure? "<<endl;
+				cout<<"\nAre you sure you want to buy another? "<<endl;
 				cout<<"[O] Yes"<<endl;
 				cout<<"[X] No"<<endl;
 				cout<<"Input: ";
 				cin>>another;
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 				check = toupper(another);
 				if (check == 'O') {
 					upper = 'Y';
@@ -335,12 +352,15 @@ main() {
 					upper = 'X';
 				}
 			} else if (upper == 'N') {
-				cout<<"\nAre you sure? "<<endl;
+				cout<<"\nAre you sure you want to check out? "<<endl;
 				cout<<"[O] Yes"<<endl;
 				cout<<"[X] No"<<endl;
 				cout<<"Input: ";
 				cin>>another;
 				check = toupper(another);
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			
 				if (check == 'X') {
 					upper = 'X';
 				}
@@ -348,76 +368,106 @@ main() {
 				cout<<endl<<"--Transaction Cancelled--"; 
 				exit(0);
 			} else if (upper == 'R') {
+				//REMOVE MENU
 				do {
 					system("cls");
-					if (vChoice.size() == 1) {
-						cout<<"Are you sure you want to remove "<<vChoice[0]<<"?"<<endl;
-						cout<<"[O] Yes"<<endl;
-						cout<<"[X] No"<<endl;
-						cout<<"Input: ";
-						cin>>another;
-						upper = toupper(another);
-						if (upper == 'O') {
-							vChoice.erase(vChoice.begin());
-							vPrice.erase(vPrice.begin());
-						}
-						upper = 'X';
-					} else if (vChoice.size() > 1) {
+					if (vChoice.size() > 0) {
 						remove = 1;
 						do {
 							system("cls");
 							tempTotal = 0;
-							if (remove < 0 || remove > vChoice.size()) {
-								cout<<"Enter 0 to "<<vChoice.size()<<" only"<<endl;
-							}
  							cout<<"Choose item to remove: "<<endl;
  							cout<<"[0] Back"<<endl;
 							for (index = 0; index < vChoice.size(); index++) {
 								removeMenu(index + 1, vChoice[index], vPrice[index], vMul[index]);
-								tempTotal += vPrice[index];
+								tempTotal += vPrice[index]*vMul[index];
 							}
-							cout<<"\nTotal: "<<tempTotal;
+							cout<<"\nTotal: P"<<tempTotal;
 							cout<<endl;
+							if (remove < 0 || remove > vChoice.size()) {
+								cout<<"Enter 0 to "<<vChoice.size()<<" only"<<endl;
+							}
 							cout<<"Input: ";
 							cin>>remove;
-							if (remove != 0) {
-								if (vMul[input] > 1) {
-									//Add Something Here
-								} else {
+							if (cin.fail()) {
+								remove = -1;
+							}
+							cin.clear();
+							cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						} while (remove < 0 || remove > vChoice.size());
+						if (remove != 0) {
+							if (vMul[remove-1] > 1) {
+								do {
+									system("cls");
+									cout<<"You currently have "<<vMul[remove-1]<<" "<<vChoice[remove-1]<<endl;
+									cout<<"How many do you want to remove?"<<endl;
+									cout<<"(Enter Zero (0) to Cancel)"<<endl<<endl;
+									if (removeQuantity < 0 || removeQuantity > vMul[remove-1]) {
+										cout<<"Invalid Input"<<endl;
+									}
+									cout<<"Input: ";
+									cin>>removeQuantity;
+									if (cin.fail()) {
+										remove = -1;
+									}
+									cin.clear();
+									cin.ignore(numeric_limits<streamsize>::max(), '\n');
+								} while (removeQuantity < 0 || removeQuantity > vMul[remove-1]);
+								vMul[remove-1] -= removeQuantity;
+								if (vMul[remove-1] == 0) {
+									vChoice.erase(vChoice.begin() + (remove-1));
+									vPrice.erase(vPrice.begin() + (remove-1));
+									vMul.erase(vMul.begin() + (remove-1));
+								}
+							} else {
+								remove = 0;
+								upper = 'O';
+								do {
 									cout<<endl<<"Are you sure you want to remove "<<vChoice[remove-1]<<"?"<<endl;
 									cout<<"[O] Yes"<<endl;
 									cout<<"[X] No"<<endl;
+									if (upper != 'O' || upper != 'X') {
+										cout<<"Invalid Input"<<endl;
+									}
 									cout<<"Input: ";
 									cin>>another;
 									upper = toupper(another);
-									if (upper == 'O') {
-										vChoice.erase(vChoice.begin() + (remove-1));
-										vPrice.erase(vPrice.begin() + (remove-1));
-									}
+									cin.clear();
+									cin.ignore(numeric_limits<streamsize>::max(), '\n');
+								} while (upper != 'O' || upper != 'X');
+								if (upper == 'O') {
+									vChoice.erase(vChoice.begin() + (remove-1));
+									vPrice.erase(vPrice.begin() + (remove-1));
+									vMul.erase(vMul.begin() + (remove-1));
 								}
-								remove = 0;
-								upper = 'O';
-							} else {
-								upper = 'X';
 							}
-						} while (remove < 0 || remove > vChoice.size());
+							remove = 0;
+							upper = 'O';
+						} else {
+							upper = 'X';
+						}
 					} else {
 						cout<<"There are no items to remove..."<<endl;
 						cout<<"Press any button to continue.";
 						cin.get();
-						upper = 'Y';
+						upper = 'X';
 					}
 				} while (upper == 'O');
 			} else {
-				upper = 'Y';
+				/*
+				upper WILL always equal small p when user
+				inputs a char that is not in the choices
+				*/
+				upper = 'p';
 			}
 			system("cls");
-		} while (upper == 'X');
+		} while (upper == 'X' || upper == 'p');
 	} while(upper == 'Y');
 	
 	srand(time(0));
+	//Get Total Price
 	for (index = 0; index < vPrice.size(); index++) {
-		total += vPrice[index];
+		total += vPrice[index]*vMul[index];
 	}
 	payment = total + 1;
 	
@@ -438,9 +488,14 @@ main() {
 			dasher(vChoice[index], vPrice[index], vMul[index]);
 		}
 		cout<<endl;
-		cout<<"Total: "<<total<<endl;
-		cout<<"Payment: ";
+		cout<<"Total: P"<<total<<endl;
+		cout<<"Enter Payment: ";
 		cin>>payment;
+		if (cin.fail()) {
+			payment = -1;
+		}
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		system("cls");
 	} while(payment < total);
 	
@@ -478,7 +533,7 @@ main() {
 void dasher(string str, float price, int mul) {
 	string strPrice, strName, strMul;
 	int i, dashCount, dashMax = 50, len;
-	strPrice = "P" + tostr(price);
+	strPrice = "P" + tostr(price*mul);
 	strMul = "x" + tostr(mul);
 	len = strPrice.length();
 	if (mul > 1) {
@@ -497,14 +552,14 @@ void dasher(string str, float price, int mul) {
 //For Remove Menu
 void removeMenu(int index, string str, float price, int mul) {
 	string strPrice, strName, strMul;
-	strPrice = "P" + tostr(price);
+	strPrice = "P" + tostr(price*mul);
 	strMul = "x" + tostr(mul);
 	if (mul > 1) {
 		strName = strMul + " " + str;
 	} else {
 		strName = str;
 	}
-	cout<<"["<<index<<"] "<<str;
+	cout<<"["<<index<<"] "<<strName;
 	cout<<" - "<<strPrice<<endl;
 }
 
@@ -524,15 +579,19 @@ void dotter(string str, float price) {
 
 //Returns Choose (x) and Displays List of chosen main ingredient
 int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice, vector<int> &multiplier){
-	int index, x, q = 1;
-	for (index = 0; index < itemList.size(); index++) {
-		cout<<"["<<index+1<<"] ";
-		dotter(itemList[index], itemPrice[index]);
-	}
-	cout<<endl;
-	cout<<"Enter the Number of your choice: ";
-	x = getChoose(choose);
-	
+	int index, x = 1, q = 1;
+	do {
+		for (index = 0; index < itemList.size(); index++) {
+			cout<<"["<<index+1<<"] ";
+			dotter(itemList[index], itemPrice[index]);
+		}
+		cout<<endl;
+		if (x < 1 || x > itemList.size()) {
+			cout<<"Enter 0 to "<<itemList.size()<<" only"<<endl;
+		}
+		cout<<"Enter the Number of your choice: ";
+		x = getChoose(choose);
+	} while (x < 0 || x > itemList.size());
 	if (x != 0) {
 		do {
 			if (q == 0) {
@@ -540,17 +599,23 @@ int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vect
 			}
 			cout<<"Enter quantity: ";
 			cin>>q;
+			if (cin.fail()) {
+				q = -1;
+			}
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			if (q == 0) {
 				system("cls");
 			}
 		} while (q == 0);
-		//if itemChoice already has itemList then just add quantity
-		//if
-		//multiplier[x-1] += q;
-		//else
-		itemChoice.push_back(itemList[x-1]);
-		multiplier.push_back(q);
-		itemChoicePrice.push_back(itemPrice[x-1]*multiplier.back());
+		if (find(itemChoice.begin(), itemChoice.end(), itemList[x-1]) != itemChoice.end()) { //check if choice already exist
+			ptrdiff_t pos = find(itemChoice.begin(), itemChoice.end(), itemList[x-1]) - itemChoice.begin();
+			multiplier[pos] += q;
+		} else {
+			itemChoice.push_back(itemList[x-1]);
+			multiplier.push_back(q);
+			itemChoicePrice.push_back(itemPrice[x-1]);
+		}
 	}
 	return x;
 }
