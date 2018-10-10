@@ -6,13 +6,13 @@ Developed by:
 - [Paragas]
 - [Fonseca]
 
-TODO:  
+(v0.9) TODO:  
 - [x] Add Display of Items on Current Purchase Menu and Payment Menu
 - [ ] Fix Prices
 - [ ] Add Mix Menu
-- [ ] Better Quantity Handling
-- [ ] Show Quantity of an item on Purchase List
-- [ ] Add an option to remove quantity in the Remove Item Menu
+- [x] Better Quantity Handling
+- [x] Show Quantity of an item on Purchase List
+- [x] Add an option to remove quantity in the Remove Item Menu
 
 ![cocktailImg](https://images.all-free-download.com/images/graphiclarge/cocktail_of_highdefinition_picture_five_166470.jpg)
 
