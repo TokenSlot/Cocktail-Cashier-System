@@ -20,7 +20,7 @@ void removeMenu(int index, string str, float price, int mul);
 void dotter(string str, float price);
 
 //Returns Choose (x) and Displays List of chosen main ingredient
-int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice, vector<int> &multiplier);
+int getList(string name, int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice, vector<int> &multiplier);
 
 //Input Choose (for getlist function)
 int getChoose(int &choose);
@@ -37,6 +37,12 @@ int randNum(int min, int max) {
 	return rand() % max + min;
 }
 
+//Clear Input
+void clearInput() {
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
 main() {
 	//FIX MULTIPLIER PLEASE
 	//Declarations
@@ -46,6 +52,9 @@ main() {
 	vector<string> vChoice;
 	vector<float> vPrice;
 	vector<int> vMul;
+	vector<string> vMixer;
+	vector<float> vMixerPrice;
+	vector<int> vMixerMul;
 	
 	vector<string> vGin;
 	vGin.push_back("Artillery Cocktail");
@@ -233,7 +242,7 @@ main() {
 	
 	vector<float> vMixPrice;
 	vMixPrice.push_back(6); //Egg
-	vMixPrice.push_back(35); //Beef Broth
+	vMixPrice.push_back(50); //Beef Broth
 	vMixPrice.push_back(25); //Hot Sauce
 	vMixPrice.push_back(50); //Beer
 	vMixPrice.push_back(15); //Maggi Sauce
@@ -254,33 +263,34 @@ main() {
 	//Declaration of Variables
 	int input = 3, index, choose, remove = 1, removeQuantity = 1, removePrice = 0, temp, mixCount = 0;
 	int i, myRand;
-	float price, tempTotal = 0, total = 0, payment, change, mixPrice = 0, mixTempPrice = 0;
+	float price, tempTotal = 0, total = 0, payment, change, mainMix ,mixPrice = 0, mixTempPrice = 0;
 	char another, check, upper = 'Y';
 	string main, mixName;
 	
 	do { 
 		do {
-			cout<<"----- Welcome to the Space Bar -----"<<endl;
-			cout<<endl;
-			cout<<"Choose your drink"<<endl;
-			cout<<"[0] Exit"<<endl;
-			cout<<"[1] Gin"<<endl;
-			cout<<"[2] Whiskey"<<endl;
-			cout<<"[3] Vodka"<<endl;
-			cout<<"[4] Rum"<<endl;
-			cout<<"[5] Tequilla"<<endl;
-			//cout<<"[6] Mix your own"<<endl<<endl; Not yet done!
-			if (input < 0 || input> 6) {
-				cout<<"Enter 0 to 6 only"<<endl;
-			}
-			cout<<"Input: ";
-			cin>>input;
-			if (cin.fail()) {
-				input = -1;
-			}
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			
+			do {
+				system("cls");
+				cout<<"----- Welcome to the Space Bar -----"<<endl;
+				cout<<endl;
+				cout<<"Choose your drink"<<endl;
+				cout<<"[0] Exit"<<endl;
+				cout<<"[1] Gin"<<endl;
+				cout<<"[2] Whiskey"<<endl;
+				cout<<"[3] Vodka"<<endl;
+				cout<<"[4] Rum"<<endl;
+				cout<<"[5] Tequilla"<<endl;
+				cout<<"[6] Mix your own"<<endl<<endl;
+				if (input < 0 || input> 6) {
+					cout<<"Enter 0 to 6 only"<<endl;
+				}
+				cout<<"Input: ";
+				cin>>input;
+				if (cin.fail()) {
+					input = -1;
+				}
+				clearInput();
+			} while (input < 0 || input > 6);
 			switch(input) {
 				case 0: cout<<endl<<"--Transaction Cancelled--"; exit(0); break;
 				case 1: main = "Gin"; break;
@@ -291,24 +301,62 @@ main() {
 				case 6: main = "Mix"; break;
 			}
 			system("cls");
-			
-			cout<<"--- You picked "<<main<<" as your main Ingredient ---"<<endl<<endl;
-			cout<<"[0] Back"<<endl;
 			if (main == "Gin") {
-				choose = getList(choose, vGin, vGinPrice, vChoice, vPrice, vMul);
+				choose = getList(main, choose, vGin, vGinPrice, vChoice, vPrice, vMul);
 			} else if (main == "Whiskey") {
-				choose = getList(choose, vWhiskey, vWhiskeyPrice, vChoice, vPrice, vMul);
+				choose = getList(main, choose, vWhiskey, vWhiskeyPrice, vChoice, vPrice, vMul);
 			} else if (main == "Vodka") {
-				choose = getList(choose, vVodka, vVodkaPrice, vChoice, vPrice, vMul);
+				choose = getList(main, choose, vVodka, vVodkaPrice, vChoice, vPrice, vMul);
 			} else if (main == "Rum") {
-				choose = getList(choose, vRum, vRumPrice, vChoice, vPrice, vMul);
+				choose = getList(main, choose, vRum, vRumPrice, vChoice, vPrice, vMul);
 			} else if (main == "Tequilla") {
-				choose = getList(choose, vTequilla, vTequillaPrice, vChoice, vPrice, vMul);
+				choose = getList(main, choose, vTequilla, vTequillaPrice, vChoice, vPrice, vMul);
 			} else if (main == "Mix") {
-				//antok na ako
+				//MIX MENU
+				/*
+				do {
+					do {
+						system("cls");
+						cout<<"----- Mix Menu -----"<<endl;
+						cout<<endl;
+						cout<<"Choose the main ingredient of your Drink"<<endl;
+						cout<<"[0] Back"<<endl;
+						cout<<"[1] Gin"<<endl;
+						cout<<"[2] Whiskey"<<endl;
+						cout<<"[3] Vodka"<<endl;
+						cout<<"[4] Rum"<<endl;
+						cout<<"[5] Tequilla"<<endl;
+						if (input < 0 || input> 5) {
+							cout<<"Enter 0 to 5 only"<<endl;
+						}
+						cout<<"Input: ";
+						cin>>input;
+						mainMix = input;
+						if (cin.fail()) {
+							input = -1;
+						}
+						clearInput();
+					} while (input < 0 || input > 5);
+					
+					do {
+						system("cls");
+						cout<<"Choose the other ingredient of your Drink"<<endl;
+						cout<<"[0] Back";
+						for (index = 0; index < vMix.size(); index++) {
+							cout<<"["<<index+1<<"]"<<" "<<vMix[index]<<" - P"<<vMixPrice[index]<<endl;
+						}
+						cout<<"Input: ";
+						cin>>input;
+						if (cin.fail()) {
+							input = -1;
+						}
+						clearInput();
+					} while (input < 0 || input > 5);
+				} //??
+				*/
 			}
 			system("cls");
-		} while(input < 0 || input > 6 || choose == 0);
+		} while(choose == 0);
 		
 		do {
 			//USER CART MENU
@@ -583,9 +631,12 @@ void dotter(string str, float price) {
 }
 
 //Returns Choose (x) and Displays List of chosen main ingredient
-int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice, vector<int> &multiplier){
+int getList(string main, int choose, vector<string> &itemList, vector<float> &itemPrice, vector<string> &itemChoice, vector<float> &itemChoicePrice, vector<int> &multiplier){
 	int index, x = 1, q = 1;
 	do {
+		system("cls");
+		cout<<"--- You picked "<<main<<" as your main Ingredient ---"<<endl<<endl;
+		cout<<"[0] Back"<<endl;
 		for (index = 0; index < itemList.size(); index++) {
 			cout<<"["<<index+1<<"] ";
 			dotter(itemList[index], itemPrice[index]);
@@ -599,8 +650,8 @@ int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vect
 	} while (x < 0 || x > itemList.size());
 	if (x != 0) {
 		do {
-			if (q == 0) {
-				cout<<"You can't enter zero (0) as a quantity"<<endl;
+			if (q < 1) {
+				cout<<"You can't enter zero (0) or negative as a quantity"<<endl;
 			}
 			cout<<"Enter quantity: ";
 			cin>>q;
@@ -612,7 +663,7 @@ int getList(int choose, vector<string> &itemList, vector<float> &itemPrice, vect
 			if (q == 0) {
 				system("cls");
 			}
-		} while (q == 0);
+		} while (q < 1);
 		if (find(itemChoice.begin(), itemChoice.end(), itemList[x-1]) != itemChoice.end()) { //check if choice already exist
 			ptrdiff_t pos = find(itemChoice.begin(), itemChoice.end(), itemList[x-1]) - itemChoice.begin();
 			multiplier[pos] += q;
