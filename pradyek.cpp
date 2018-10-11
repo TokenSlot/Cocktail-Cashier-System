@@ -1,6 +1,5 @@
 //Project ITE 001
 //Paltera, Fonseca, Paragas
-//#include <roman>
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -53,7 +52,6 @@ main() {
 	vector<string> vChoice;
 	vector<float> vPrice;
 	vector<int> vMul;
-	
 	vector<string> vMixer;
 	vector<float> vMixerPrice;
 	vector<int> vMixerMul;
@@ -303,8 +301,6 @@ main() {
 				case 6: main = "Mix"; break;
 			}
 			system("cls");
-			
-			;
 			if (main == "Gin") {
 				choose = getList(main, choose, vGin, vGinPrice, vChoice, vPrice, vMul);
 			} else if (main == "Whiskey") {
